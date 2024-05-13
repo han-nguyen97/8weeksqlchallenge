@@ -1,5 +1,5 @@
 # Case Study 1 - Danny's Diner
-![Untitled](https://8weeksqlchallenge.com/images/case-study-designs/1.png)
+<img src="https://8weeksqlchallenge.com/images/case-study-designs/1.png" width = "600">
 
 ## Introduction
 
@@ -20,7 +20,7 @@ Danny has shared with you 3 key datasets for this case study:
 - Members
 
 ## Entity Relationship Diagram
-![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/e69cd83e-50db-466f-8439-2f7651ebfe2b)
+![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/2382c74c-f323-49e1-b4f1-9af827f9dc87)
 
 ## Case Study Questions & Solutions
 **1. What is the total amount each customer spent at the restaurant?**

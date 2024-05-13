@@ -1,5 +1,5 @@
 # Case Study 1 - Danny's Diner
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9a1222e2-21be-42c8-8dd4-cdfcb9c709f7/7b99a40f-e106-4e87-ae3a-b1be0df0ab6f/Untitled.png)
+![Untitled](https://8weeksqlchallenge.com/images/case-study-designs/1.png)
 
 ## Introduction
 
@@ -20,15 +20,15 @@ Danny has shared with you 3 key datasets for this case study:
 - Members
 
 ## Entity Relationship Diagram
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9a1222e2-21be-42c8-8dd4-cdfcb9c709f7/5a181ad4-22e6-46b4-abb7-8c9983e8fd3f/Untitled.png)
+![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/e69cd83e-50db-466f-8439-2f7651ebfe2b)
 
 ## Case Study Questions & Solutions
 **1. What is the total amount each customer spent at the restaurant?**
 ```sql
-SELECT dannys_diner.sales.customer_id, SUM(dannys_diner.menu.price) AS Total_Amount
+SELECT dannys_diner.sales.customer_id,
+      SUM(dannys_diner.menu.price) AS Total_Amount
 FROM dannys_diner.menu
-RIGHT JOIN
-dannys_diner.sales
+RIGHT JOIN dannys_diner.sales
 ON dannys_diner.menu.product_id = dannys_diner.sales.product_id
 GROUP BY customer_id;
 ```

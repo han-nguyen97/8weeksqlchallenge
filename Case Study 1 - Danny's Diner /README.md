@@ -114,6 +114,10 @@ WHERE popular_rank = 1;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/4370f133-0b91-4b51-a32a-2d3afd9c3ad9)
 
+- WITH clause: This part creates a temporary table called popular_product_within_customer by combining two tables sales and menu using the common identifier product_id. The DENSE_RANK() assigns a rank to each product for each customer based on number of times the product was ordered - COUNT(*).  The highest number of times q product was ordered ranks 1.
+- SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id and product_name
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the most popular product (the product which ordered most times by each customer) was shown.
+  
 **6. Which item was purchased first by the customer after they became a member?**
 ```sql
 -- Create a table containing data after each customer became member (including joining date)
@@ -136,6 +140,10 @@ WHERE order_rank = 1;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/f9c8e822-dd4b-46ae-bfc0-0ddb8354a8bb)
 
+- WITH clause: This part creates a temporary table called sales_members by combining two tables sales and menu using the common identifier product_id. The WHERE Clause ensures that the table only contains data after each customer became member (including joining date). The DENSE_RANK() assigns a rank to each order based on the ascending order of order_date, meaning that the oldest order ranks first.
+- SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the first order was shown.
+  
 **7. Which item was purchased just before the customer became a member?**
 ```sql
 -- Create a table containing data before each customer became member 
@@ -162,6 +170,10 @@ WHERE order_rank = 1;
 
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/def65be8-94a1-425c-af1f-cb0069435da4)
 
+- WITH clause: This part creates a temporary table called sales_members by combining two tables sales and menu using the common identifier product_id. The WHERE Clause ensures that the table only contains data before each customer becomes member. The DENSE_RANK() assigns a rank to each order based on the descending order of order_date, meaning that the latest order ranks first.
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the latest order was shown.
+- - SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
+  
 **8. What is the total items and amount spent for each member before they became a member?**
 ```sql
 SELECT sales.customer_id,
@@ -177,6 +189,11 @@ GROUP BY sales.customer_id;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/9f10dcaf-ce43-4ad0-8d42-0ed99517c5de)
 
+- FROM Clause: The three tables sales, members, menu were joined to retrieve items and amount spent for each member using common identifiers customer_id and product_id.
+- WHERE Clause: The condition join_date > order_date was included to ensure only data of  members were shown
+- GROUP BY Clause: The data was grouped by customer_id to calculate the requiring data
+- SELECT statement: THE COUNT() and SUM() functions were used to calculate the total items were ordered and the total amount each customer spent.
+
 **9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 ```sql
 SELECT sales.customer_id,
@@ -191,6 +208,11 @@ ON sales.product_id = menu.product_id
 GROUP BY customer_id;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/68fe9b0b-006b-4793-bf87-4c3b81e7abbd)
+
+- FROM Clause: To calculate the points for each customer, we need the sales and menu tables to know which product each customer was ordered. The two tables were joined using product_id as a common identifier.
+- GROUP BY Clause: This groups the results by customer_id. The SUM function will then calculate the total points for each customer based on their purchases.
+- CASE … WHEN Statement: This CASE Statement checks if the product_name was sushi, then it multiplies the price by 10 and 2. If not, it multiplies the price by 10. This ensures that sushi receives double points. 
+- SELECT Statement: The CASE … WHEN Statement was wrapped in SUM function to calculate total point for each customer.
 
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 ```sql
@@ -211,6 +233,12 @@ GROUP BY sales.customer_id,
             join_date;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/539701a5-a993-4654-925c-bbad27f0e369)
+
+- FROM Clause: To calculate the points for each member, we need the sales, members and menu tables to know which product each member was ordered. The three tables were joined using customer_id and product_id as the common identifiers.
+- WHERE Clause: The condition join_date <= order_date ensures that only data after the customer becomes member was retrieved. To calculate the points at the end of January, order_date <= '2021-01-31' was included in the condition.
+- GROUP BY Clause: The query correctly groups by customer_id and join_date to ensure proper aggregation of points.
+SUM(CASE ... END) AS Member_Points: Calculates the total points earned by each customer with a CASE statement. The DATEADD() function calculates the one week after the join date. If the order was made within one week after joining data, the members earn double points. Otherwise, they earn regular points.
+- SELECT Statement: The final result includes customer_id and member_points.
 
 **Bonus questions:**
 **Recreate the table**

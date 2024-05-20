@@ -34,9 +34,9 @@ GROUP BY customer_id;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/ebf5d985-b226-46e1-bba3-3392425ca3dd)
 
-FROM clause: From the question, I mainly focus on sales table, then I join it with the menu table to retrieve price data based on product_id as it serves as a common identifier between them. 
-GROUP BY clause: Then I group data based on customer_id to calculate the total amount.  
-SELECT statement: I use SUM function to calculate total amount spent by customers and include customer_id in the final result
+- FROM clause: From the question, I mainly focus on sales table, then I join it with the menu table to retrieve price data based on product_id as it serves as a common identifier between them.<br>
+- GROUP BY clause: Then I group data based on customer_id to calculate the total amount.<br>
+- SELECT statement: I use SUM function to calculate total amount spent by customers and include customer_id in the final result
 
 **2. How many days has each customer visited the restaurant?**
 ```sql
@@ -47,9 +47,9 @@ GROUP BY customer_id;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/fc5ae8d0-5539-4e43-a038-432eec08557c)
 
-FROM clause: Retrieve data from the sales table
-GROUP BY clause: Group data based on customer_id to calculate the time visited  
-SELECT statement: The COUNT function and DISTINCT were used to calculate the number of times a customer visits a restaurant based on order_date
+- FROM clause: Retrieve data from the sales table.<br>
+- GROUP BY clause: Group data based on customer_id to calculate the time visited .<br>
+- SELECT statement: The COUNT function and DISTINCT were used to calculate the number of times a customer visits a restaurant based on order_date
 
 **3. What was the first item from the menu purchased by each customer?**
 ```sql
@@ -71,9 +71,9 @@ WHERE rank = 1;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/7ceebcd6-406f-4a59-8598-c4271654b9a8)
 
-WITH clause: This part creates a temporary table called menu_sales by combining two tables sales and menu. The DENSE_RANK() assigns a rank to each order for each customer based on order_date.  The earliest purchase from each customer gets a rank 1. If there is more than 1 purchase per date per customer, all of the orders from that customer get the same number.
-SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id and product_name
-WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the first item from the menu on the first order date will be shown.
+- WITH clause: This part creates a temporary table called menu_sales by combining two tables sales and menu. The DENSE_RANK() assigns a rank to each order for each customer based on order_date.  The earliest purchase from each customer gets a rank 1. If there is more than 1 purchase per date per customer, all of the orders from that customer get the same number.<br>
+- SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id and product_name.<br>
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the first item from the menu on the first order date will be shown.
 
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 ```sql
@@ -88,11 +88,11 @@ OFFSET 0 ROWS FETCH FIRST 1 ROWS ONLY;
 ```
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/aa324c05-99dc-4213-8e5e-57f68ba90881)
 
-FROM Clause: This part combines two tables menu and product based on the common identifier product_id
-GROUP BY Clause: To calculate the number of purchasing time, the data was grouped by product_name
-SELECT statement: The COUNT function was used to calculate the number of times each product was purchased and product_name was also selected from the table
-ORDER BY Clause: This orders the result set by Purchased_Time in descending order
-OFFSET-FETCH Clause: This part limits the number of rows returned by the query, ensuring that only the the top product was retrieved
+- FROM Clause: This part combines two tables menu and product based on the common identifier product_id.<br>
+- GROUP BY Clause: To calculate the number of purchasing time, the data was grouped by product_name.<br>
+- SELECT statement: The COUNT function was used to calculate the number of times each product was purchased and product_name was also selected from the table.<br>
+- ORDER BY Clause: This orders the result set by Purchased_Time in descending order.<br>
+- OFFSET-FETCH Clause: This part limits the number of rows returned by the query, ensuring that only the the top product was retrieved
 
 **5. Which item was the most popular for each customer?**
 ```sql

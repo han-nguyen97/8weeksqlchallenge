@@ -305,4 +305,21 @@ ORDER BY customer_id,
 - Next, the main query selects all the required columns from sales_data, and creates a ranking column using DENSE_RANK(). The ranking was specified for member, based on member_id and order by the ascending order of order_date. The final result was ordered by customer_id and order_date.
 
 ## Key insights
+**Member vs. Non-member Analysis**:
 
+There is no large difference between members and non-members considering the most popular dish For members: The most popular dish for A is ramen, for B is ramen, curry and sushi. Regarding non-members, ramen is the most ordered dish.<br>
+Overall, members tend to purchase more dishes than non-members. The owner should consider incentivizing non-members to become members.
+
+**Membership Conversion Analysis**:
+Danny can analyze the conversion rate of non-members to members overtime and identify the trends or patterns that correlate with the increasing in membership sign-ups. 
+
+**Popular Items Analysis**:
+The most popular item purchased by customers is ramen. The owner can consider promoting this popular dish or introducing variations to attract more customers.
+
+**Member Engagement**
+
+The loyalty point is a great solution to encourage members to spend more in order to increase sales. Based on the preferences of members, the owner can revise the loyalty program benefits or introduce more incentives to make it more attractive.
+
+**Customer Segmentation**
+
+Segment customers based on their purchasing behavior, frequency of visits, and membership status. Tailor marketing campaigns and promotions to each segment to increase relevance and effectiveness.

@@ -172,7 +172,7 @@ WHERE order_rank = 1;
 
 - WITH clause: This part creates a temporary table called sales_members by combining two tables sales and menu using the common identifier product_id. The WHERE Clause ensures that the table only contains data before each customer becomes member. The DENSE_RANK() assigns a rank to each order based on the descending order of order_date, meaning that the latest order ranks first.
 - WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the latest order was shown.
-- - SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
+- SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
   
 **8. What is the total items and amount spent for each member before they became a member?**
 ```sql
@@ -273,7 +273,7 @@ WITH sales_data AS
             WHEN join_date <= order_date THEN 'Y'
             ELSE 'N'
       END AS member,
---- Create a new member_id for customer who become meber
+--- Create a new member_id for customer who become member
       CASE
             WHEN join_date <= order_date THEN sales.customer_id
             ELSE null
@@ -297,4 +297,12 @@ FROM sales_data
 ORDER BY customer_id,
       order_date;
 ```
+![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/c0ea04e7-39d3-4db9-a012-7a77a7689d89)
+
+- WITH Clause: 
+  - First, I create a common table expression (CTE) named sales_date, I use three tables: sales, menu and members. Then I join three tables using common identifiers product_id and customer_id. LEFT JOIN was used to ensure that all customers were shown in the table, not just the customers who become memers.
+  - Within the CTE, the SELECT Statement selects the necessary columns, then I use CASE Statement to create a new column named member. For each row, if join_date < order_date then write ‘Y’, if not then write ‘N’. For the member_id column, it checks if on that day, the customer becomes member or not. If the customer becomes member on that day, then write customer_id else null. 
+- Next, the main query selects all the required columns from sales_data, and creates a ranking column using DENSE_RANK(). The ranking was specified for member, based on member_id and order by the ascending order of order_date. The final result was ordered by customer_id and order_date.
+
+## Key insights
 

@@ -115,8 +115,8 @@ WHERE popular_rank = 1;
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/4370f133-0b91-4b51-a32a-2d3afd9c3ad9)
 
 - WITH clause: This part creates a temporary table called popular_product_within_customer by combining two tables sales and menu using the common identifier product_id. The DENSE_RANK() assigns a rank to each product for each customer based on number of times the product was ordered - COUNT(*).  The highest number of times q product was ordered ranks 1.
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the most popular product (the product which ordered most times by each customer) is shown.
 - SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id and product_name
-- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the most popular product (the product which ordered most times by each customer) was shown.
   
 **6. Which item was purchased first by the customer after they became a member?**
 ```sql
@@ -142,11 +142,11 @@ WHERE order_rank = 1;
 
 - WITH clause: This part creates a temporary table called sales_members by combining two tables sales and menu using the common identifier product_id. The WHERE Clause ensures that the table only contains data after each customer became member (including joining date). The DENSE_RANK() assigns a rank to each order based on the ascending order of order_date, meaning that the oldest order ranks first.
 - SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
-- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the first order was shown.
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the first order is shown.
   
 **7. Which item was purchased just before the customer became a member?**
 ```sql
--- Create a table containing data before each customer became member 
+-- Create a table containing data before each customer becomes member 
 WITH sales_members AS
   (SELECT sales.customer_id,
             join_date,
@@ -171,7 +171,7 @@ WHERE order_rank = 1;
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/def65be8-94a1-425c-af1f-cb0069435da4)
 
 - WITH clause: This part creates a temporary table called sales_members by combining two tables sales and menu using the common identifier product_id. The WHERE Clause ensures that the table only contains data before each customer becomes member. The DENSE_RANK() assigns a rank to each order based on the descending order of order_date, meaning that the latest order ranks first.
-- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the latest order was shown.
+- WHERE clause: Filters the result to include only rows with rank equals to 1. This ensures that only the latest order is shown.
 - SELECT statement: Specifies the columns that will be presented in the final result. It includes customer_id, join_date, order_date, product_name
   
 **8. What is the total items and amount spent for each member before they became a member?**
@@ -192,7 +192,7 @@ GROUP BY sales.customer_id;
 - FROM Clause: The three tables sales, members, menu were joined to retrieve items and amount spent for each member using common identifiers customer_id and product_id.
 - WHERE Clause: The condition join_date > order_date was included to ensure only data of  members were shown
 - GROUP BY Clause: The data was grouped by customer_id to calculate the requiring data
-- SELECT statement: THE COUNT() and SUM() functions were used to calculate the total items were ordered and the total amount each customer spent.
+- SELECT statement: THE COUNT() and SUM() functions were used to calculate the total items ordered and the total amount each customer spent.
 
 **9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 ```sql
@@ -212,7 +212,7 @@ GROUP BY customer_id;
 - FROM Clause: To calculate the points for each customer, we need the sales and menu tables to know which product each customer was ordered. The two tables were joined using product_id as a common identifier.
 - GROUP BY Clause: This groups the results by customer_id. The SUM function will then calculate the total points for each customer based on their purchases.
 - CASE … WHEN Statement: This CASE Statement checks if the product_name was sushi, then it multiplies the price by 10 and 2. If not, it multiplies the price by 10. This ensures that sushi receives double points. 
-- SELECT Statement: The CASE … WHEN Statement was wrapped in SUM function to calculate total point for each customer.
+- SELECT Statement: The CASE … WHEN Statement was wrapped in SUM function to calculate total points for each customer.
 
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 ```sql
@@ -300,7 +300,7 @@ ORDER BY customer_id,
 ![image](https://github.com/han-nguyen97/8weeksqlchallenge/assets/83593831/c0ea04e7-39d3-4db9-a012-7a77a7689d89)
 
 - WITH Clause: 
-  - First, I create a common table expression (CTE) named sales_date, I use three tables: sales, menu and members. Then I join three tables using common identifiers product_id and customer_id. LEFT JOIN was used to ensure that all customers were shown in the table, not just the customers who become memers.
+  - First, I create a common table expression (CTE) named sales_date, I use three tables: sales, menu and members. Then I join three tables using common identifiers product_id and customer_id. LEFT JOIN was used to ensure that all customers were shown in the table, not just the customers who become members.
   - Within the CTE, the SELECT Statement selects the necessary columns, then I use CASE Statement to create a new column named member. For each row, if join_date < order_date then write ‘Y’, if not then write ‘N’. For the member_id column, it checks if on that day, the customer becomes member or not. If the customer becomes member on that day, then write customer_id else null. 
 - Next, the main query selects all the required columns from sales_data, and creates a ranking column using DENSE_RANK(). The ranking was specified for member, based on member_id and order by the ascending order of order_date. The final result was ordered by customer_id and order_date.
 
@@ -311,7 +311,7 @@ There is no large difference between members and non-members considering the mos
 Overall, members tend to purchase more dishes than non-members. The owner should consider incentivizing non-members to become members.
 
 **Membership Conversion Analysis**:
-Danny can analyze the conversion rate of non-members to members overtime and identify the trends or patterns that correlate with the increasing in membership sign-ups. 
+Danny can analyze the conversion rate of non-members to members over time and identify the trends or patterns that correlate with the increasing in membership sign-ups. 
 
 **Popular Items Analysis**:
 The most popular item purchased by customers is ramen. The owner can consider promoting this popular dish or introducing variations to attract more customers.

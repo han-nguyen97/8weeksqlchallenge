@@ -24,8 +24,8 @@ To calculate the total unique nodes, the query retrieves data from customer_node
 
 **2. What is the number of nodes per region?**
 ```sql
-SELECT region_name, 
-				COUNT(node_id) AS nbr_nodes
+SELECT region_name,
+	COUNT(node_id) AS nbr_nodes
 FROM customer_nodes
 INNER JOIN regions
 ON customer_nodes.region_id = regions.region_id
@@ -37,8 +37,8 @@ First, the query joins two tables regions and customer_nodes to retrieve data re
 
 **3. How many customers are allocated to each region?**
 ```sql
-SELECT region_name, 
-				COUNT(DISTINCT customer_id) AS nbr_customers
+SELECT region_name,
+	COUNT(DISTINCT customer_id) AS nbr_customers
 FROM customer_nodes
 INNER JOIN regions
 ON customer_nodes.region_id = regions.region_id
@@ -50,7 +50,7 @@ First, the query joins two tables regions and customer_nodes to retrieve data re
 
 **4. How many days on average are customers reallocated to a different node?**
 ```sql
-SELECT AVG(DATEDIFF(day, start_date, end_date))AS avg_date_diff
+SELECT AVG(DATEDIFF(day, start_date, end_date)) AS avg_date_diff
 FROM customer_nodes
 WHERE end_date <> '9999-12-31';
 ```
@@ -105,15 +105,15 @@ To calculate the average number of historical deposit, the query counts all the 
 -- Create a table calculating the number of times each customer makes a deposit, purchase and withdrawal per month
 WITH nbr_type_per_month AS
 	(SELECT MONTH(txn_date) AS month,
-				customer_id,
-				SUM(CASE WHEN txn_type = 'deposit' THEN 1 ELSE 0 END) AS nbr_deposit,
-				SUM(CASE WHEN txn_type = 'withdrawal' THEN 1 ELSE 0 END) AS nbr_withdrawal,
-				SUM(CASE WHEN txn_type = 'purchase' THEN 1 ELSE 0 END) AS nbr_purchase
+		customer_id,
+		SUM(CASE WHEN txn_type = 'deposit' THEN 1 ELSE 0 END) AS nbr_deposit,
+		SUM(CASE WHEN txn_type = 'withdrawal' THEN 1 ELSE 0 END) AS nbr_withdrawal,
+		SUM(CASE WHEN txn_type = 'purchase' THEN 1 ELSE 0 END) AS nbr_purchase
 	FROM customer_transactions
 	GROUP BY MONTH(txn_date), customer_id)
 
 SELECT month,
-			COUNT(DISTINCT customer_id) AS nbr_customer
+	COUNT(DISTINCT customer_id) AS nbr_customer
 FROM nbr_type_per_month
 WHERE nbr_deposit > 1
 AND( nbr_withdrawal >= 1 OR nbr_purchase >= 1)
@@ -136,8 +136,8 @@ We use the temporary table to find out, for each month:
 **4. What is the closing balance for each customer at the end of the month?**
 ```sql
 SELECT customer_id,
-  SUM(CASE WHEN txn_type = 'deposit' THEN txn_amount ELSE 0 END) - 
-  SUM(CASE WHEN txn_type IN ('withdrawal', 'purchase') THEN txn_amount ELSE 0 END) AS closing_balance
+  	SUM(CASE WHEN txn_type = 'deposit' THEN txn_amount ELSE 0 END) - 
+  	SUM(CASE WHEN txn_type IN ('withdrawal', 'purchase') THEN txn_amount ELSE 0 END) AS closing_balance
 FROM customer_transactions
 GROUP BY customer_id;
 ```

@@ -146,4 +146,4 @@ GROUP BY customer_id;
 The query uses CASE statements to categorize transactions based on their type:
 - If `txn_type` is 'deposit', it adds the `txn_amount` to the running total.
 - If `txn_type` is 'withdrawal' or 'purchase', it subtracts the `txn_amount` from the total.
-The `GROUP BY customer_id` clause ensures the calculations are done for each customer independently. By effectively separating deposits from withdrawals/purchases, the query essentially calculates the net change in each customer's balance throughout the entire period.
+The GROUP BY `customer_id` clause ensures the calculations are done for each customer independently. By effectively separating deposits from withdrawals/purchases, the query essentially calculates the net change in each customer's balance throughout the entire period.
